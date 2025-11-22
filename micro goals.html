@@ -1,84 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutor Selecting System</title>
+    <title>Contact | Tutor–Student Matching System</title>
 
     <style>
-        footer{ background: #0b78d1; padding: 18px; color: white; text-align: center; }
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
-            margin: 0;
-            padding: 0;
+        body { font-family: Arial; margin: 0; background: #f4faff; }
+        header { background: #0b78d1; padding: 18px; color: white; text-align: center; }
+        nav { background: #003d66; padding: 12px; text-align: center; }
+        nav a { color: white; margin: 0 15px; font-weight: bold; text-decoration: none; }
+        section { padding: 40px; }
+
+        input, textarea, select {
+            width: 100%; padding: 10px; margin: 8px 0;
+            border-radius: 5px; border: 1px solid #aac;
         }
 
-        header {
-            background: #004aad;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
+        button {
+            padding: 10px 20px; background: #0b78d1; 
+            border: none; color: white;
+            border-radius: 5px; cursor: pointer;
         }
 
-        .container {
-            width: 80%;
-            margin: auto;
-            margin-top: 40px;
+        /* Tabs */
+        .tab-buttons button {
+            padding: 10px 20px;
+            background: #003d66;
+            margin-right: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .tab-buttons button.active {
+            background: #0b78d1;
+        }
+
+        .form-box {
+            display: none;
+            margin-top: 20px;
             padding: 20px;
             background: white;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 0 10px #ccc;
         }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: bold;
+        footer {
+            background: #003d66; padding: 15px; text-align: center;
         }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 6px;
-            border: 1px solid #888;
-        }
-
-        button {margin-left: 35%;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: #004aad;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #003580;
-        }
-
-        #result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            background: #e7f1ff;
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-        }
-        nav { background: #003d66; padding: 12px; text-align: center; }
-    nav a { color: white; margin: 0 15px; font-weight: bold; text-decoration: none; }
+        footer a { color: white; text-decoration: none; margin: 0 15px; }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>Select your Tutor</h1>
-    </header>
-    <nav>
+<header>
+    <h1>Contact Us</h1>
+</header>
+
+<nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="matchmaking.html">Select Tutor</a>
@@ -87,73 +65,140 @@
     <a href="sdg.mapping.html">SDG Mapping</a>
 </nav>
 
+<section>
+    <h2>Get in Touch</h2>
 
-    <div class="container">
-        <h2>Find Your Ideal Tutor</h2>
+    <!-- Contact Form -->
+    <form onsubmit="contactSubmit(event)">
+        <label>Your Name</label>
+        <input id="cname" type="text" placeholder="Enter your name">
 
-        <label>Select Subject:</label>
-        <select id="subject">
-            <option value="HTML">HTML</option>
-            <option value="JAVA">JAVA</option>
-            <option value="C language">C language</option>
-            <option value="PYTHON">PYTHON</option>
-        </select>
+        <label>Email</label>
+        <input id="cemail" type="email" placeholder="Enter your email">
 
-        <label>Select Grade Level:</label>
-        <select id="grade">
-            <option value="Primary">Beginner</option>
-            <option value="Middle">Intermediate</option>
-            <option value="High">Advance</option>
-        </select>
+        <label>Message</label>
+        <textarea id="cmessage" rows="5" placeholder="Write your message here"></textarea>
 
-        <button onclick="matchTutor()">Match Tutor</button>
+        <button type="submit">Submit</button>
+    </form>
 
-        <div id="result"></div>
+    <hr><br>
+
+    <!-- Registration Forms -->
+    <h2>Registration Forms</h2>
+
+    <!-- Tab Buttons -->
+    <div class="tab-buttons">
+        <button onclick="showForm('student')" class="active" id="btnStudent">Student Registration</button>
+        <button onclick="showForm('teacher')" id="btnTeacher">Teacher Registration</button>
     </div>
 
-    <script>
-        function matchTutor() {
-            const subject = document.getElementById("subject").value;
-            const grade = document.getElementById("grade").value;
+    <!-- Student Form -->
+    <div class="form-box" id="studentForm" style="display: block;">
+        <h3>Student Registration Form</h3>
 
-            // UPDATED TUTORS LIST (DIFFERENT FOR EACH LEVEL)
-            const tutors = {
-                "HTML": {
-                    "Primary": "Mrs. Shalini – HyperText Markup Language, is the standard markup language used to create and structure web pages",
-                    "Middle": "Mr. Ramesh – To the use of tags, attributes, and elements that go beyond basic text presentation to provide more structure, context, interactivity, and multimedia capabilities to a webpage",
-                    "High": "Prof. Vikram Rao – common usage in educational contexts, it likely refers to features considered part of advanced HTML or potentially conditional statements used in conjunction with HTML. "
-                },
-                "JAVA": {
-                    "Primary": "Ms. Pooja – HyperText Markup Language, is the standard markup language used to create and structure web pages",
-                    "Middle": "Mr. Arjun – concepts beyond basic control flow and variable declarations, encompassing powerful constructs for managing program execution, handling data, and building complex applications. ",
-                    "High": "Dr. Tanmay Shah – concepts beyond basic control flow and variable declarations, encompassing powerful constructs for managing program execution, handling data, and building complex applications. "
-                },
-                "C language": {
-                    "Primary": "Mrs. Meenal –  a fundamental unit of execution, representing a single instruction or a group of instructions that the computer performs.",
-                    "Middle": "Mrs. Rose – The user may be referring to either C as an intermediate-level language or the concept of an intermediate representation/code within a compiler.",
-                    "High": "Prof. Aarav Mitchell –  extend beyond the fundamentals of variables, loops, and basic functions, focusing on deeper memory management, system-level interactions, and complex program design."
-                },
-                "PYTHON": {
-                    "Primary": "Mr. Kunal –  interpreted programming language known for its readability and versatility.",
-                    "Middle": "Ms. Riya – build upon foundational knowledge and equip developers with tools for writing more efficient, organized, and robust code.",
-                    "High": "Mr. Harsh Vardhan – build upon fundamental Python knowledge and are crucial for developing complex applications and systems."
-                }
-            };
+        <label>Full Name</label>
+        <input id="sname" type="text" placeholder="Enter your name">
 
-            document.getElementById("result").style.display = "block";
-            document.getElementById("result").innerHTML =
-                "Best Match: <br><br>" + tutors[subject][grade];
-        }
-    </script>
+        <label>Class/Grade</label>
+        <input id="sclass" type="text" placeholder="Enter class">
+
+        <label>Preferred Subject</label>
+        <input id="ssubject" type="text" placeholder="Enter subject">
+
+        <label>Email</label>
+        <input id="semail" type="email" placeholder="Enter email">
+
+        <button onclick="registerStudent()">Register</button>
+    </div>
+
+    <!-- Teacher Form -->
+    <div class="form-box" id="teacherForm">
+        <h3>Teacher Registration Form</h3>
+
+        <label>Full Name</label>
+        <input id="tname" type="text" placeholder="Enter your name">
+
+        <label>Subject Expertise</label>
+        <input id="tsubject" type="text" placeholder="Enter subject">
+
+        <label>Experience (Years)</label>
+        <input id="texp" type="number" placeholder="Enter experience">
+
+        <label>Email</label>
+        <input id="temail" type="email" placeholder="Enter email">
+
+        <button onclick="registerTeacher()">Register</button>
+    </div>
+
+</section>
+
 <footer>
-   @2025 Copyright.com <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="matchmaking.html">Select Tutor</a>
     <a href="services.html">Services</a>
     <a href="contact.html">Contact</a>
     <a href="sdg.mapping.html">SDG Mapping</a>
-</nav>
 </footer>
+
+<!-- JavaScript -->
+<script>
+    /* Contact Form Submit Alert */
+    function contactSubmit(event) {
+        event.preventDefault(); // stop page refresh
+
+        let name = document.getElementById("cname").value;
+        let email = document.getElementById("cemail").value;
+        let message = document.getElementById("cmessage").value;
+
+        if (name === "" || email === "" || message === "") {
+            alert("Please fill all contact form details!");
+            return;
+        }
+
+        alert("Thank you for contacting us, " + name + "! We will respond soon.");
+    }
+
+    // Show forms based on tab selection
+    function showForm(type) {
+        document.getElementById('studentForm').style.display = type === 'student' ? 'block' : 'none';
+        document.getElementById('teacherForm').style.display = type === 'teacher' ? 'block' : 'none';
+
+        document.getElementById('btnStudent').classList.toggle('active', type === 'student');
+        document.getElementById('btnTeacher').classList.toggle('active', type === 'teacher');
+    }
+
+    // Student registration validation
+    function registerStudent() {
+        let name = document.getElementById("sname").value;
+        let classs = document.getElementById("sclass").value;
+        let subject = document.getElementById("ssubject").value;
+        let email = document.getElementById("semail").value;
+
+        if(name === "" || classs === "" || subject === "" || email === "") {
+            alert("Please fill all student details!");
+            return;
+        }
+
+        alert("Student Registered Successfully:\nName: " + name + "\nClass: " + classs);
+    }
+
+    // Teacher registration validation
+    function registerTeacher() {
+        let name = document.getElementById("tname").value;
+        let subject = document.getElementById("tsubject").value;
+        let exp = document.getElementById("texp").value;
+        let email = document.getElementById("temail").value;
+
+        if(name === "" || subject === "" || exp === "" || email === "") {
+            alert("Please fill all teacher details!");
+            return;
+        }
+
+        alert("Teacher Registered Successfully:\nName: " + name + "\nSubject: " + subject);
+    }
+</script>
+
 </body>
 </html>
